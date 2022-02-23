@@ -1,14 +1,21 @@
 const express = require('express'); //se impporta/requiere express para hacer más fácil la configuración del server
 const cors = require('cors'); //se requiere cors para el uso de peticiones fuera del servidor
+const {
+    dbConnection
+} = require('../DB/config');
 require('dotenv').config(); //se requiere el dotenv para hacer uso de archivos .env
 
 class Server {
     constructor() {
         this.app = express(); //se guarda el método express de arriba en app
         this.port = process.env.PORT; // se guarda el puerto desde el archivo .env
-        this.usuariosPath = '/api/usuarios'; //se establece la ruta donde están las rutas de usuarios y se define api
 
+        this.usuariosPath = '/api/usuarios'; //se establece la ruta donde están las rutas de usuarios y se define api
         this.estadosPath = '/api/estados'; //se establece la ruta donde están las rutas de usuarios y se define api
+        this.paisesPath = '/api/paises'; //se establece la ruta donde están las rutas de paises y se define api
+
+        //conecta a la base de datos
+        this.conectarDB();
 
         //MIDDLEWARES Funciones que añaden funcionalidad al web server
         /**
@@ -18,6 +25,13 @@ class Server {
 
         //rutas de la aplicación
         this.routes(); // se manda llamar la función routes
+    }
+
+    /**
+     * Función que sirve para invocar a la función dbConnection que conecta a la base de datos
+     */
+    async conectarDB() {
+        await dbConnection();
     }
 
     /**
@@ -47,8 +61,9 @@ class Server {
          * y se manda llamar a require('../routes/user')
          */
         this.app.use(this.usuariosPath, require('../routes/usuarios'));
-        
+
         this.app.use(this.estadosPath, require('../routes/estados'));
+        this.app.use(this.paisesPath, require('../routes/paises'));
     }
 
     /**

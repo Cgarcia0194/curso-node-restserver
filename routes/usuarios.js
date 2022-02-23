@@ -1,7 +1,10 @@
+const {router, check, validarCampos} = require('../helpers/requires');
+
 const {
-    Router
-} = require('express'); //se requiere a express, pero se desestructura la función Router
-const router = Router(); //se llama la función Router en router, a este se le configuran las rutas
+    esRolValido,
+    emailExiste,
+    existeUsuarioPorId
+} = require('../helpers/db-validators'); // función que sirve para validar el campo o valor del rol
 
 const {
     usuariosGet,
@@ -16,13 +19,42 @@ const {
  */
 router.get('/', usuariosGet);
 
-router.post('/', usuariosPost);
+/**
+ * 1. Ruta
+ * 2. Se pasa un arreglo de los campos que se quieren validar con express-validator y como se quiere validar cada uno
+ * (estos son middlewares de check y el otro es un personalizado)
+ * 3. Controlador de usuarios
+ */
+router.post('/', [
+    check('nombre', 'El nombre es obligatorio').not().isEmpty(),
+    check('contrasenia', 'La contraseña debe tener más de 6 digitos').isLength({
+        min: 6
+    }),
+    check('correo', 'El correo ingresado no tiene el formato de correo').isEmail(),
+    check('correo').custom(emailExiste),
+    // check('rol', 'No es un rol válido').isIn(['ADMIN_ROLE', 'USER_ROLE']),
+    // check('rol').custom(rol => esRolValido(rol)),//Es una función callback y se envía el parametro de manera automática
+    check('rol').custom(esRolValido),
+    validarCampos
+], usuariosPost);
 
-router.put('/:idUsuario', usuariosPut);
+//Sirve para actualizar datos
+router.put('/:idUsuario', [
+    check('idUsuario', 'No es un id válido').isMongoId(),
+    check('idUsuario').custom(existeUsuarioPorId),
+    check('rol').custom(esRolValido),
+    validarCampos
+], usuariosPut);
 
+//
 router.patch('/', usuariosPatch);
 
-router.delete('/', usuariosDelete);
+//Sirve para eliminar registro 621642cfef1a16b025886379
+router.delete('/:idUsuario', [
+    check('idUsuario', 'No es un id válido').isMongoId(),
+    check('idUsuario').custom(existeUsuarioPorId),
+    validarCampos
+], usuariosDelete);
 
-//se exporta la variable router
+//Se exporta la variable router que es una instancia de Router
 module.exports = router;
