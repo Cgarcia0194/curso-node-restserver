@@ -1,13 +1,13 @@
 const {
-    Router
-} = require('express');
-const {
     estadosGet,
     estadosPost,
     estadosPut,
     estadosPatch,
     estadosDelete
 } = require('../controllers/estados');
+
+const {Router} = require('../helpers/requires');
+//se llama la función Router en router, a este se le configuran las rutas
 const router = Router();
 
 /**

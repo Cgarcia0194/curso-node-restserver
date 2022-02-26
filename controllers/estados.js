@@ -1,7 +1,4 @@
-const {
-    response
-} = require('express');
-
+const {response} = require('express');
 const Estado = require('../models/estado');
 
 const estadosGet = (req, res) => {

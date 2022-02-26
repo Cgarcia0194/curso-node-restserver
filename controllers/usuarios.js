@@ -1,5 +1,4 @@
 const {response, request, bcryptjs} = require('../helpers/requires');
-
 const Usuario = require('../models/usuario'); //requiere el modelo de Usuario
 
 //trae info del servidor
@@ -96,11 +95,15 @@ const usuariosDelete = async (req, res = response) => {
 
     const {idUsuario} = req.params;
 
+    const uid = req.uid;
+
     //Elimina al usuario de manera física
     //const usuario = await Usuario.findByIdAndDelete(idUsuario);
     const usuario = await Usuario.findByIdAndUpdate(idUsuario, {estado: false});
+    const usuarioAutenticado = req.usuario;
 
-    res.json(usuario);
+
+    res.json({usuario, uid, usuarioAutenticado});
 };
 
 //se exportan las variables de cada ruta

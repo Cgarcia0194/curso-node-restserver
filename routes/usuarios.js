@@ -1,4 +1,17 @@
-const {router, check, validarCampos} = require('../helpers/requires');
+const {
+    usuariosGet,
+    usuariosPost,
+    usuariosPut,
+    usuariosPatch,
+    usuariosDelete
+} = require('../controllers/usuarios');
+
+const {
+    validarCampos,
+    validarJWT,
+    esAdminRol,
+    tieneRol
+} = require('../middlewares');
 
 const {
     esRolValido,
@@ -7,12 +20,12 @@ const {
 } = require('../helpers/db-validators'); // función que sirve para validar el campo o valor del rol
 
 const {
-    usuariosGet,
-    usuariosPost,
-    usuariosPut,
-    usuariosPatch,
-    usuariosDelete
-} = require('../controllers/usuarios');
+    Router,
+    check
+} = require('../helpers/requires');
+
+//se llama la función Router en router, a este se le configuran las rutas
+const router = Router();
 
 /**
  * RUTAS DE USUARIOS
@@ -49,8 +62,11 @@ router.put('/:idUsuario', [
 //
 router.patch('/', usuariosPatch);
 
-//Sirve para eliminar registro 621642cfef1a16b025886379
+//Sirve para eliminar registro
 router.delete('/:idUsuario', [
+    validarJWT,
+    // esAdminRol,
+    tieneRol('ADMIN_ROLE', 'VENTAS_ROLE', 'USER_ROLE'),
     check('idUsuario', 'No es un id válido').isMongoId(),
     check('idUsuario').custom(existeUsuarioPorId),
     validarCampos

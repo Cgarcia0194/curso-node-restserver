@@ -3,9 +3,8 @@
  * para hacer esta función
  * 
  */
-
 const {validationResult} = require('express-validator');
-
+const {errores} = require('../helpers/errores'); //requiere la función de errores para lanzarlo
 
 /**
  * función que sirve para poder validar los campos
@@ -15,10 +14,10 @@ const {validationResult} = require('express-validator');
  * @returns 
  */
 const validarCampos = (req, res, next) => {
-    const errores = validationResult(req);
+    const error = validationResult(req);
 
-    if(!errores.isEmpty()){
-        return res.status(400).json(errores);
+    if(!error.isEmpty()){
+        return errores(res, 400, error);
     }
 
     next();//si no pasa por el if llega aquí y manda al otro argumento de la ruta POST

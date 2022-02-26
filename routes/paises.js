@@ -1,5 +1,3 @@
-const {router} = require('../helpers/requires');
-
 const {
     paisesGet,
     paisesPost,
@@ -8,6 +6,9 @@ const {
     paisesDelete
 } = require('../controllers/paises');
 
+const {Router} = require('../helpers/requires');
+//se llama la función Router en router, a este se le configuran las rutas
+const router = Router();
 
 /**
  * RUTAS DE paises

@@ -1,7 +1,4 @@
-const {
-    response
-} = require('express');
-
+const {response} = require('express');
 const Pais = require('../models/paises');
 
 const paisesGet = (req, res) => {

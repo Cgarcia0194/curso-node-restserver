@@ -10,7 +10,10 @@ class Server {
         this.app = express(); //se guarda el método express de arriba en app
         this.port = process.env.PORT; // se guarda el puerto desde el archivo .env
 
+        this.authPath = '/api/auth'; //se establece la ruta donde están las rutas de authentication y se define api
         this.usuariosPath = '/api/usuarios'; //se establece la ruta donde están las rutas de usuarios y se define api
+        
+        this.municipiosPath = '/api/municipios'; //se establece la ruta donde están las rutas de municipios y se define api
         this.estadosPath = '/api/estados'; //se establece la ruta donde están las rutas de usuarios y se define api
         this.paisesPath = '/api/paises'; //se establece la ruta donde están las rutas de paises y se define api
 
@@ -60,8 +63,10 @@ class Server {
          * se aplica un middleware donde se pasa una ruta (this.usuariosPath) donde está ubicadas las rutas 
          * y se manda llamar a require('../routes/user')
          */
+        this.app.use(this.authPath, require('../routes/auth'));//se define la ruta de authPath haciendo el require de la ruta ../routes/auth
         this.app.use(this.usuariosPath, require('../routes/usuarios'));
 
+        this.app.use(this.municipiosPath, require('../routes/municipios'));
         this.app.use(this.estadosPath, require('../routes/estados'));
         this.app.use(this.paisesPath, require('../routes/paises'));
     }

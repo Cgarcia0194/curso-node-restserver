@@ -1,7 +1,4 @@
-const {
-    Schema,
-    model
-} = require('mongoose');
+const {Schema,model} = require('mongoose');
 
 //Función que sirve para crear un esquema con los campos que va usar la tabla
 const usuarioSchema = Schema({
@@ -36,10 +33,11 @@ const usuarioSchema = Schema({
     }
 });
 
-//
 //función que sirve para desestructurar el objeto usuarioSchema y quitar el __v y contrasenia
 usuarioSchema.methods.toJSON = function () {
-    const {__v, contrasenia, ...usuarioRest} = this.toObject();//genera un objeto con los valores de la instancia a usuarioSchema
+    const {__v, contrasenia, _id, ...usuarioRest} = this.toObject();//genera un objeto con los valores de la instancia a usuarioSchema
+    usuarioRest.uid = _id;// se convierte el campo _id por uid
+    
     return usuarioRest;
 }
 
