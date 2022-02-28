@@ -26,12 +26,7 @@
 
     <script>
         const btnSalir = document.getElementById('google_signout');
-        const rutaLocal = 'http://localhost:3001/api/auth/google';
-        const rutaServidor = 'https://rest-server-carlos-node.herokuapp.com/api/auth/google';
-        
-        let url = (window.location.hostname.includes('localhost') ? rutaLocal : rutaServidor);
 
-        console.log(url);
         /**
          * es una función de API de google que sirve para traer la información del correo con el
          * que se quiere ingresar al sistema
@@ -53,7 +48,14 @@
             };
 
             //petición al backend para hacer la búsqueda del usuario
-            fetch(url, options)
+            fetch(window.location.hostname.includes('localhost') ? 'http://localhost:3001/api/auth/google' : 'https://rest-server-carlos-node.herokuapp.com/api/auth/google',
+                    {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(cuerpo)
+                    })
                 .then(res => res.json())
                 .then(data => {
                     localStorage.setItem('correo', data.usuario.correo); //se guarda el correo en localStorage
@@ -70,8 +72,8 @@
             //sirve para eliminar las credenciales de google y del localStorage que se creó
             google.accounts.id.disableAutoSelect();
             google.accounts.id.revoke(localStorage.getItem('correo'), terminado => {
-                localStorage.clear();//limpia el local Storage del navegador
-                location.reload();//recarga la lágina para que se vean los cambios de limpieza
+                localStorage.clear(); //limpia el local Storage del navegador
+                location.reload(); //recarga la lágina para que se vean los cambios de limpieza
             });
         };
     </script>
