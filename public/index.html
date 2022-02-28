@@ -38,6 +38,9 @@
                 id_token: response.credential // es el id_token que recibe router.post('/google', [
             };
 
+            const rutaLocal = 'http://localhost:3001/api/auth/google';
+            const rutaServidor = 'https://rest-server-carlos-node.herokuapp.com/api/auth/google';
+
             //opciones que se le mandan a la petción fetch
             const options = {
                 method: 'POST',
@@ -48,14 +51,7 @@
             };
 
             //petición al backend para hacer la búsqueda del usuario
-            fetch(window.location.hostname.includes('localhost') ? 'http://localhost:3001/api/auth/google' : 'https://rest-server-carlos-node.herokuapp.com/api/auth/google',
-                    {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(cuerpo)
-                    })
+            fetch(window.location.hostname.includes('localhost') ? rutaLocal : rutaServidor, options)
                 .then(res => res.json())
                 .then(data => {
                     localStorage.setItem('correo', data.usuario.correo); //se guarda el correo en localStorage
