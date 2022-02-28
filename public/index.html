@@ -27,10 +27,11 @@
     <script>
         const btnSalir = document.getElementById('google_signout');
         const rutaLocal = 'http://localhost:3001/api/auth/google';
-        const rutaServidor = 'https://rest-server-carlos-node.herokuapp.com/';
+        const rutaServidor = 'https://rest-server-carlos-node.herokuapp.com/api/auth/google';
         
         let url = (window.location.hostname.includes('localhost') ? rutaLocal : rutaServidor);
 
+        console.log(url);
         /**
          * es una función de API de google que sirve para traer la información del correo con el
          * que se quiere ingresar al sistema
