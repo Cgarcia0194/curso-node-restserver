@@ -2,7 +2,7 @@ const {errores} = require('../helpers/errores'); //requiere la función de error
 const {response} = require('../helpers/requires');
 
 /**
- * Función que sirve para validar que e usuario que desea eliminar tiene el rol de administrador
+ * Función que sirve para validar el usuario que desea eliminar tiene el rol de administrador
  * @param {*} req 
  * @param {*} res 
  * @param {*} next 
@@ -24,7 +24,7 @@ const esAdminRol = (req, res = response, next) => {
 
 /**
  * Función que sirve para poder buscar que el rol del usuario concuerde con alguno de los que se pasan en la función
- * @param  {...any} roles 
+ * @param  {...any} roles : se pasa el arreglo de roles desde la ruta con los roles existentes y se desestructura
  * @returns 
  */
 const tieneRol = (...roles) => {
@@ -34,11 +34,11 @@ const tieneRol = (...roles) => {
             return errores(res, 500, 'Se quiere validar el rol sin validar el token primero');
         }
 
-        if(!roles.includes(req.usuario.rol)) {
+        if(!roles.includes(req.usuario.rol)) {//función include que sirve para poder hacer una búsqueda en el arreglo
             return errores(res, 401, `El servicio requiere uno de estos roles ${roles}`);
         }
         
-        next();
+        next();//hace que continúe la siguiente middleware
     };
 
 };

@@ -4,6 +4,13 @@ const {errores} = require('../helpers/errores'); //requiere la función de error
 const {request,response} = require('../helpers/requires');
 const Usuario = require('../models/usuario'); //requiere el modelo de Usuario
 
+/**
+ * Función que sirve para validar el Json Web Token que manda el usuario del front al backend
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next : sirve para poder decir que siga a la siguiente middleware cuando todo está bien en esta
+ * @returns 
+ */
 const validarJWT = async (req = request, res = response, next) => {
     const token = req.header('x-token');
 
@@ -23,7 +30,7 @@ const validarJWT = async (req = request, res = response, next) => {
             if (usuario.estado === false) { //si existe, pero está en false es como si estuviera eliminado
                 return errores(res, 401, 'El usuario que está en el sistema está eliminado');
             }
-        } else { //si no existe totalmente en la base de datos
+        } else { //si no existe el registro en la base de datos
             return errores(res, 401, 'El usuario no existe');
         }
 

@@ -1,8 +1,6 @@
-const express = require('express'); //se impporta/requiere express para hacer más fácil la configuración del server
 const cors = require('cors'); //se requiere cors para el uso de peticiones fuera del servidor
-const {
-    dbConnection
-} = require('../DB/config');
+const express = require('express'); //se impporta/requiere express para hacer más fácil la configuración del server
+const {dbConnection} = require('../DB/config');
 require('dotenv').config(); //se requiere el dotenv para hacer uso de archivos .env
 
 class Server {
@@ -38,7 +36,7 @@ class Server {
     }
 
     /**
-     * 
+     * Middlewares o funciones: que se ejecutan para que realicen algo
      */
     middlewares() {
         /**
@@ -46,13 +44,15 @@ class Server {
          * los cors son peticiones que se hacen a otro servidor, está prohibio que se hagan a un servidor ajeno
          * al de la aplicació, el CORS es el que regula o hace que esto sea posible y no haya problemas
          */
-        this.app.use(cors()); //crea un middleware de la ibrería importada cors
+        //crea un middleware de la ibrería importada cors para poder dejar al servidor hacer peticiones fuera de donde está alojado el servidor
+        this.app.use(cors()); 
 
         //middleware que sirve para poder mandar información desde el front al servidor/backend
         //cualquier información la va serializar en formato JSON
         this.app.use(express.json());
 
-        this.app.use(express.static('public')); //directorio público
+        //Sirve para decir que donde se va a direccionar es a la carpeta public
+        this.app.use(express.static('public')); 
     }
 
     /**

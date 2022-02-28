@@ -3,5 +3,4 @@ const server = new Server(); //se guarda la variable anterior como variable que 
 
 //require('dotenv').config();//se requiere el dotenv para hacer uso de archivos .env
 
-
 server.listen(); //se escucha el servidor con la función listen de la clase Server

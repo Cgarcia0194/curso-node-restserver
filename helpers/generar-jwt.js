@@ -1,14 +1,15 @@
 const jwt = require('jsonwebtoken');//se importa la librería jsonwebtoken que sirve para generar los json web tokens
 
 /**
- * Se crea una promesa para crear el JWT
- * @param {*} uid 
+ * Se crea una promesa para crear el JWT cuando el usuario se loguea o ingresa al sistema
+ * @param {*} uid : id del usuario que se loguea y se le va generar el token
  * @returns 
  */
 const generarJWT = (uid = '') => {
 
     return new Promise((resolve, reject) => {
-        const payload = {uid};// se desesctructura el uid y se guarda en payload
+        // se desesctructura el uid y se guarda en payload
+        const payload = {uid};
 
         //se usa la función sign mandando el payload y SECRETORPRIVATEKEY que se usa para firmar los tokens
         jwt.sign(payload, process.env.SECRETORPRIVATEKEY, {
@@ -21,7 +22,6 @@ const generarJWT = (uid = '') => {
             } else {//cuando está bien se regresa con el resolve y el token generado
                 resolve(token);
             }
-
         });
     });
 }
