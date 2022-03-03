@@ -4,25 +4,25 @@ const {
     usuariosPut,
     usuariosPatch,
     usuariosDelete
-} = require('../controllers/usuarios');
+} = require('../../controllers/procesos/usuarios');
 
 const {
     validarCampos,
     validarJWT,
     esAdminRol,
     tieneRol
-} = require('../middlewares');
+} = require('../../middlewares');
 
 const {
     esRolValido,
-    emailExiste,
+    existeEmail,
     existeUsuarioPorId
-} = require('../helpers/db-validators'); // función que sirve para validar el campo o valor del rol
+} = require('../../helpers/db-validators'); // función que sirve para validar el campo o valor del rol
 
 const {
     Router,
     check
-} = require('../helpers/requires');
+} = require('../../helpers/requires');
 
 //se llama la función Router en router, a este se le configuran las rutas
 const router = Router();
@@ -44,7 +44,7 @@ router.post('/', [
         min: 6
     }),
     check('correo', 'El correo ingresado no tiene el formato de correo').isEmail(),
-    check('correo').custom(emailExiste),
+    check('correo').custom(existeEmail),
     // check('rol', 'No es un rol válido').isIn(['ADMIN_ROLE', 'USER_ROLE']),
     // check('rol').custom(rol => esRolValido(rol)),//Es una función callback y se envía el parametro de manera automática
     check('rol').custom(esRolValido),

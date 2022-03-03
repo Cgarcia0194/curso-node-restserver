@@ -1,5 +1,5 @@
-const {response, request, bcryptjs} = require('../helpers/requires');
-const Usuario = require('../models/usuario'); //requiere el modelo de Usuario
+const {response, bcryptjs} = require('../../helpers/requires');
+const Usuario = require('../../models/procesos/usuario'); //requiere el modelo de Usuario
 
 //trae info del servidor
 const usuariosGet = async (req, res = response) => {
@@ -7,9 +7,7 @@ const usuariosGet = async (req, res = response) => {
     const {limite = 10, desde = 1} = req.query;//valores que mando en la url para saber desde y el límite de registros que quiero
 
     const query = {
-        estado: true,
-        // rol: 'ADMIN_ROLE',
-        // google: false
+        estado: true
     };
 
     const [total, usuarios] = await Promise.all([

@@ -13,8 +13,10 @@
     <h1>Google Sign In</h1>
     <hr>
 
-    <div id="g_id_onload" data-client_id="28933440555-glj8nb131b1a2m8f8s7i69ec9cg35ruk.apps.googleusercontent.com"
-        data-auto_prompt="false" data-callback="handleCredentialResponse">
+    <div id="g_id_onload" 
+        data-client_id="28933440555-glj8nb131b1a2m8f8s7i69ec9cg35ruk.apps.googleusercontent.com"
+        data-auto_prompt="false" 
+        data-callback="handleCredentialResponse">
     </div>
     <div class="g_id_signin" data-type="standard" data-size="large" data-theme="outline" data-text="sign_in_with"
         data-shape="rectangular" data-logo_alignment="left">
@@ -30,11 +32,11 @@
         /**
          * es una función de API de google que sirve para traer la información del correo con el
          * que se quiere ingresar al sistema
+         * https://console.cloud.google.com/apis/credentials/oauthclient
          */
         function handleCredentialResponse(response) {
 
             const rutaUsar = window.location.hostname.includes('localhost') ? 'http://localhost:3001/api/auth/google' : 'https://rest-server-carlos-node.herokuapp.com/api/auth/google';
-
             //Google toke: ID_TOKEN
             const cuerpo = {
                 id_token: response.credential // es el id_token que recibe router.post('/google', [

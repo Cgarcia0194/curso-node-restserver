@@ -1,4 +1,4 @@
-const {OAuth2Client} = require('google-auth-library');//importa la librería de google auth paraentrar con correo de google
+const {OAuth2Client} = require('google-auth-library');//importa la librería de google auth para entrar con correo de google
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 

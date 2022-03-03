@@ -1,11 +1,5 @@
 const {response} = require('express');
-const Pais = require('../models/paises');
-
-const paisesGet = (req, res) => {
-    res.json({
-        mesg: 'paises Get'
-    });
-};
+const Pais = require('../../models/catalogos/pais');
 
 const paisesPost = async (req, res) => {
     const {
@@ -45,10 +39,16 @@ const paisesDelete = (req, res = response) => {
     });
 };
 
+const paisesGet = (req, res) => {
+    res.json({
+        mesg: 'paises Get'
+    });
+};
+
 module.exports = {
-    paisesGet,
     paisesPost,
     paisesPut,
     paisesPatch,
-    paisesDelete
+    paisesDelete,
+    paisesGet
 };

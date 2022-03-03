@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken'); //se importa la librería jsonwebtoken que 
 
 const {errores} = require('../helpers/errores'); //requiere la función de errores para lanzarlo
 const {request,response} = require('../helpers/requires');
-const Usuario = require('../models/usuario'); //requiere el modelo de Usuario
+const Usuario = require('../models/procesos/usuario'); //requiere el modelo de Usuario
 
 /**
  * Función que sirve para validar el Json Web Token que manda el usuario del front al backend

@@ -16,6 +16,8 @@
     "dotenv": "sirve para hacer uso de archivos .env",
     "express": "sirve para poder configurar un servidor de manera más rápida que todo desde js nativo",
     "express-validator": "librería que sirve para poder validar campos de diferentes tipos como correos, tamaño, customs, etc",
+    "google-auth-library": "librería que sirve para hacer las autenticaciones con correos de google",
+    "jsonwebtoken": "librería que sirve para crear los JWT",
     "mongoose": "librería ODM (Object Document Mapper) que sirve para poder crear Schemas y modelos (como conexiones a mongo de una tabla) y trabajar con bases de datos en forma de código y no por queries"
   },
   "dependencies": {
@@ -26,6 +28,7 @@
     "express-validator": "^6.14.0",
     "google-auth-library": "^7.14.0",
     "jsonwebtoken": "^8.5.1",
+    "moment": "^2.29.1",
     "mongoose": "^6.2.2"
   }
 }
