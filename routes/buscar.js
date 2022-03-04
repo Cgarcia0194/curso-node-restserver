@@ -1,7 +1,4 @@
-const {
-    Router,
-    check
-} = require('../helpers/requires');
+const { Router } = require('../helpers/requires');
 
 const { buscar } = require('../controllers/buscar');
 
@@ -9,6 +6,5 @@ const { buscar } = require('../controllers/buscar');
 const router = Router();
 
 router.get('/:coleccion/:termino', buscar)
-
 
 module.exports = router;

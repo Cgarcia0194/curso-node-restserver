@@ -82,10 +82,7 @@ const consultarProductosActivos = async (req, res = response) => {
         .limit(Number(limite)) //limit es para limitar con un número
     ]);
 
-    res.json({
-        total,
-        productos
-    });
+    return respuesta(res, 200, {total, productos});
 };
 
 //obtener producto
@@ -98,9 +95,7 @@ const consultarProducto = async (req, res = response) => {
         return errores(res, 400, `No se ha encontrado el producto con el id ${id}, tal vez está inactivo o no existe`);
     }
 
-    res.json({
-        producto
-    });
+    return respuesta(res, 200, producto);
 };
 
 module.exports = {

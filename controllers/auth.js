@@ -5,7 +5,7 @@ const {response, request, bcryptjs} = require('../helpers/requires');
 const Usuario = require('../models/procesos/usuario'); //requiere el modelo de Usuario
 
 /**
- * Función que sirve para poder luegar o hacer que un usuario ingrese al sistema
+ * Función que sirve para poder loguear o hacer que un usuario ingrese al sistema
  * @param {*} req 
  * @param {*} res 
  * @returns 

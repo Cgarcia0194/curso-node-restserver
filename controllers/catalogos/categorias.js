@@ -73,10 +73,7 @@ const consultarCategoriasActivas = async (req, res = response) => {
         .limit(Number(limite)) //limit es para limitar con un número
     ]);
 
-    res.json({
-        total,
-        categorias
-    });
+    return respuesta(res, 200, {total, categorias});
 };
 
 //obtener categoria - populate
@@ -91,9 +88,7 @@ const consultarCategoria = async (req, res = response) => {
         return errores(res, 400, `No se ha encontrado la categoria con el id ${id}, tal vez está inactivo o no existe`);
     }
 
-    res.json({
-        categoria
-    });
+    return respuesta(res, 200, {categoria});
 };
 
 module.exports = {

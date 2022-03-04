@@ -1,7 +1,5 @@
 const {login, googleSignIn} = require('../controllers/auth');
-const {
-    Router,
-    check} = require('../helpers/requires');
+const {Router,check} = require('../helpers/requires');
 const {validarCampos} = require('../middlewares');
 
 //se llama la función Router en router, a este se le configuran las rutas

@@ -1,17 +1,8 @@
-const {
-    Router,
-    check
-} = require('../../helpers/requires');
+const {Router, check} = require('../../helpers/requires');
 
-const {
-    validarCampos,
-    validarJWT,
-    esAdminRol
-} = require('../../middlewares');
+const {validarCampos, validarJWT, esAdminRol} = require('../../middlewares');
 
-const {
-    existeProductoPorId, existeCategoriaPorId
-} = require('../../helpers/db-validators');
+const {existeProductoPorId, existeCategoriaPorId} = require('../../helpers/db-validators');
 
 const {
     consultarProductosActivos,

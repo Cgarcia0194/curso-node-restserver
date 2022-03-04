@@ -1,5 +1,6 @@
 const {response, bcryptjs} = require('../../helpers/requires');
 const Usuario = require('../../models/procesos/usuario'); //requiere el modelo de Usuario
+const {respuesta} = require('../../helpers/errores'); //requiere la función de errores para lanzarlo
 
 //trae info del servidor
 const usuariosGet = async (req, res = response) => {
@@ -17,9 +18,7 @@ const usuariosGet = async (req, res = response) => {
             .limit(Number(limite))//limit es para limitar con un número
     ]);
 
-    res.json({
-        total, usuarios
-    });
+    return respuesta(res, 200, {total, usuarios});
 };
 
 //Función que inserta el usuario
@@ -50,10 +49,7 @@ const usuariosPost = async (req, res = response) => {
     //guardar en la base de datos
     await usuario.save();
 
-    res.json({
-        msg: 'Post API - controlador',
-        usuario
-    });
+    return respuesta(res, 200, {msg: 'Post API - controlador', usuario});
 };
 
 //actualiza información en el servidor
@@ -76,12 +72,12 @@ const usuariosPut = async (req, res = response) => {
         restUsuario.contrasenia = bcryptjs.hashSync(contrasenia, salt);
     }
 
-    const usuario = await Usuario.findByIdAndUpdate(idUsuario, restUsuario); //LO ENCUENTRA Y ACTUALIZA
+    const usuario = await Usuario.findByIdAndUpdate(idUsuario, restUsuario, {new: true}); //LO ENCUENTRA Y ACTUALIZA
 
-    res.json(usuario);
+    return respuesta(res, 200, usuario);
 };
 
-//
+//NO SE USA
 const usuariosPatch = (req, res = response) => {
     res.json({
         msg: 'Patch API - controlador'
@@ -97,11 +93,10 @@ const usuariosDelete = async (req, res = response) => {
 
     //Elimina al usuario de manera física
     //const usuario = await Usuario.findByIdAndDelete(idUsuario);
-    const usuario = await Usuario.findByIdAndUpdate(idUsuario, {estado: false});
+    const usuario = await Usuario.findByIdAndUpdate(idUsuario, {estado: false}, {new: true});
     const usuarioAutenticado = req.usuario;
 
-
-    res.json({usuario, uid, usuarioAutenticado});
+    return respuesta(res, 200, {usuario, uid, usuarioAutenticado});
 };
 
 //se exportan las variables de cada ruta

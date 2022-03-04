@@ -28,6 +28,7 @@ const {
 //se llama la función Router en router, a este se le configuran las rutas
 const router = Router();
 
+//PARA LAS PETICIONES POST SE USAR req.body, ya que los datos no se mandan por URL se mandan por el cuerpo del mensaje
 router.post('/', [
     validarJWT,
     check('nombre', 'El nombre es obligatorio').not().isEmpty(),
@@ -51,6 +52,8 @@ router.delete('/:id', [
     validarCampos
 ], eliminarCategoria);
 
+//PARA LAS PETICIONES GET SE USA req.query, ya que son los datos que se mandan por URL después del ?
+//como nombre=carlos&apellidoP=García...
 router.get('/', consultarCategoriasActivas);
 
 router.get('/:id', [

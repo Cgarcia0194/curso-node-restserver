@@ -17,7 +17,7 @@ const buscarCategorias = async (termino = '', res = response) => {
     if(esMongoId){
         const categoria = await Categoria.findById(termino);
 
-        return res.json((categoria) ? [categoria]: []);
+        return respuesta(res, 200, ((categoria) ? [categoria]: [{"info": "No hay información disponible"}]));
     }
 
     const regex = new RegExp(termino, 'i');//es una expresión regular para hacer la búsqueda de tipo no tane estricta
@@ -26,7 +26,7 @@ const buscarCategorias = async (termino = '', res = response) => {
         $or: [{nombre: regex, estatus: 'Activo'}]
     });
     
-    res.json({results: categorias});
+    return respuesta(res, 200, (categorias ? {"results":categorias}: [{"info": "No hay información disponible"}]));
 };
 
 /**
@@ -55,7 +55,7 @@ const buscarProductos = async (termino = '', res = response) => {
     .populate('categoria', 'nombre')
     .populate('usuario', 'nombre');
     
-    res.json({results: productos});
+    return respuesta(res, 200, {results: productos});
 };
 
 /**
@@ -80,7 +80,7 @@ const buscarProductos = async (termino = '', res = response) => {
         $and: [{estado: true}]
     });
     
-    res.json({results: usuarios});
+    return respuesta(res, 200, {results: usuarios});
 };
 
 /**
