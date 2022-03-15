@@ -1,4 +1,5 @@
 const {
+    personasGet,
     personasPost
 } = require('../../controllers/procesos/personas');
 
@@ -13,6 +14,8 @@ const router = Router();
 /**
  * RUTAS DE PERSONAS
  */
+ router.get('/', personasGet);
+
 router.post('/', [
     check('txtNombre', 'El nombre es obligatorio').not().isEmpty(),
     check('txtNombre', 'El nombre debe tener más de 6 digitos').isLength({

@@ -1,54 +1,65 @@
-const {response} = require('express');
-const {Pais} = require('../../models');
+const {
+  mensaje,
+  response
+} = require("../../helpers");
 
-const paisesPost = async (req, res) => {
-    const {
-        nombre,
-        abreviatura
-    } = req.body; //desestructuro el body con los valores que son obligatorios
+const {
+  Pais
+} = require("../../models");
 
-    const pais = new Pais({
-        nombre,
-        abreviatura
-    }); //mando los valores desestructurados al modelo de estado
+const crearPais = async (req, res = response) => {
+  const {
+    nombre,
+    abreviatura
+  } = req.body;
 
-    //guardar en la base de datos
-    await pais.save();
+  const paisDB = await Pais.findOne({
+    nombre,
+    abreviatura
+  });
 
-    res.json({
-        mesg: 'paises post',
-        pais
-    });
+  if (paisDB) {
+    return mensaje(res, 400, `El nombre del pais '${nombre}' ya está registrado`);
+  }
+
+  const data = {
+    nombre,
+    abreviatura,
+    usuario: req.usuario._id
+  };
+
+  const pais = new Pais(data);
+
+  await pais.save();
+
+  return mensaje(res, 200, pais);
 };
 
-const paisesPut = (req, res = response) => {
-    res.json({
-        mesg: 'paises put'
-    });
-};
+//actualizar pais
+const actualizarPais = async (req, res = response) => {
+  const {
+    idPais
+  } = req.params;
 
-const paisesPatch = (req, res = response) => {
-    res.json({
-        mesg: 'paises patch'
-    });
-};
+  const {
+    nombre,
+    abreviatura
+  } = req.body;
 
-const paisesDelete = (req, res = response) => {
-    res.json({
-        mesg: 'paises delete'
-    });
-};
+  const data = {
+    idPais,
+    nombre,
+    abreviatura,
+  };
 
-const paisesGet = (req, res) => {
-    res.json({
-        mesg: 'paises Get'
-    });
+  const pais = await Pais.findByIdAndUpdate(idPais, data, {
+    new: true,
+  });
+
+  return mensaje(res, 200, pais);
 };
 
 module.exports = {
-    paisesPost,
-    paisesPut,
-    paisesPatch,
-    paisesDelete,
-    paisesGet
+  crearPais,
+  actualizarPais
 };

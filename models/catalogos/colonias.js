@@ -1,19 +1,20 @@
 const { Schema, model } = require("mongoose");
 const moment = require("moment");
 
-const paisSchema = Schema({
+const coloniaSchema = Schema({
   nombre: {
     type: String,
     required: [true, "El nombre es obligatorio"],
   },
-  abreviatura: {
-    type: String,
-    required: [true, "La abreviatura es obligatoria"],
+  codigo_postal: {
+    type: Number,
+    required: [true, "El código postal es obligatorio"],
   },
   estatus: {
     type: String,
     enum: ["Activo", "Inactivo"],
     default: "Activo",
+    required: true,
   },
   usuario: {
     type: Schema.Types.ObjectId,
@@ -27,6 +28,6 @@ const paisSchema = Schema({
 });
 
 //se exporta con la función de model, lo que ayuda a ponerlo en una colección y el nombre
-//Paises = es el nombre que tendrá la tabla a donde se guardará, si no está creada lo crea con el nombre
-//paisSchema = es el esquema/modelo que se mandará
-module.exports = model("Paises", paisSchema);
+//Colonia = es el nombre que tendrá la tabla a donde se guardará, si no está creada lo crea con el nombre
+//coloniaSchema = es el esquema/modelo que se mandará
+module.exports = model("Colonia", coloniaSchema);

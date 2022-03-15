@@ -1,5 +1,19 @@
 const {mensaje, bcryptjs, response} = require('../../helpers');
-const {Persona, Usuario} = require('../../models');
+const {Persona} = require('../../models');
+
+//función que sirve para traer las personas
+const personasGet = async (req, res = response) => {
+    const {limite = 10, desde = 1} = req.query;//valores que mando en la url para saber desde y el límite de registros que quiero
+
+    const [total, personas] = await Promise.all([
+        Persona.countDocuments(),
+        Persona.find()
+            .skip(Number(desde - 1))
+            .limit(Number(limite))
+    ]);
+
+    return mensaje(res, 200, {total, personas});
+};
 
 //Función que inserta el persona
 const personasPost = async (req, res = response) => {
@@ -39,10 +53,10 @@ const personasPost = async (req, res = response) => {
     //mando al modelo de usuario.contrasenia la clave encriptada
     usuario.contrasenia = bcryptjs.hashSync(info.txtContrasenia, salt);
 
-    //guardar en la base de datos
+    //guarda en la bd en persona
     await persona.save();
 
-    //guardar en la base de datos
+    //guardar en la bd en usuario con el id de persona
     await usuario.save();
 
     return mensaje(res, 200, {msg: 'Post API - controlador', persona});
@@ -51,5 +65,6 @@ const personasPost = async (req, res = response) => {
 
 //se exportan las variables de cada ruta
 module.exports = {
+    personasGet,
     personasPost
 };
