@@ -1,5 +1,4 @@
-const {errores} = require('../helpers/errores'); //requiere la función de errores para lanzarlo
-const {response} = require('../helpers/requires');
+const {mensaje, response} = require('../helpers');
 
 /**
  * Función que sirve para validar el usuario que desea eliminar tiene el rol de administrador
@@ -10,13 +9,13 @@ const {response} = require('../helpers/requires');
  */
 const esAdminRol = (req, res = response, next) => {
     if(!req.usuario){//quiere decir que si existe el usuario
-        return errores(res, 500, 'Se quiere validar el rol sin validar el token primero');
+        return mensaje(res, 500, 'Se quiere validar el rol sin validar el token primero');
     }
 
     const {rol, nombre} = req.usuario;
 
     if(rol !== 'ADMIN_ROLE'){
-       return errores(res, 401, `El usuario (${nombre}) tiene un rol ${rol}`);
+       return mensaje(res, 401, `El usuario (${nombre}) tiene un rol ${rol}`);
     }
 
     next();
@@ -31,11 +30,11 @@ const tieneRol = (...roles) => {
     return (req, res = response, next) => {
 
         if(!req.usuario){//quiere decir que si existe el usuario
-            return errores(res, 500, 'Se quiere validar el rol sin validar el token primero');
+            return mensaje(res, 500, 'Se quiere validar el rol sin validar el token primero');
         }
 
         if(!roles.includes(req.usuario.rol)) {//función include que sirve para poder hacer una búsqueda en el arreglo
-            return errores(res, 401, `El servicio requiere uno de estos roles ${roles}`);
+            return mensaje(res, 401, `El servicio requiere uno de estos roles ${roles}`);
         }
         
         next();//hace que continúe la siguiente middleware

@@ -1,17 +1,10 @@
 const {
-    Router,
-    check
-} = require('../../helpers/requires');
-const {
     validarCampos,
     validarJWT,
     esAdminRol
 } = require('../../middlewares');
 
-const {
-    existeCategoria,
-    existeCategoriaPorId
-} = require('../../helpers/db-validators');
+const {check, Router, existeCategoria, existeCategoriaPorId} = require('../../helpers');
 
 const {
     crearCategoria,

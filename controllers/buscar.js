@@ -1,7 +1,15 @@
-const {ObjectId} = require('mongoose').Types;
-const {errores, respuesta} = require('../helpers/errores'); //requiere la función de errores para lanzarlo
-const {response} = require('../helpers/requires');
-const {Usuarios, Categoria, Producto } = require('../models');
+const {
+    ObjectId
+} = require('mongoose').Types;
+const {
+    mensaje,
+    response
+} = require('../helpers');
+const {
+    Categoria,
+    Producto,
+    Usuarios
+} = require('../models');
 
 const coleccionesPermitidas = ['usuarios', 'categorias', 'productos', 'roles'];
 
@@ -12,21 +20,30 @@ const coleccionesPermitidas = ['usuarios', 'categorias', 'productos', 'roles'];
  * @returns 
  */
 const buscarCategorias = async (termino = '', res = response) => {
-    const esMongoId = ObjectId.isValid(termino);//true false
+    const esMongoId = ObjectId.isValid(termino); //true false
 
-    if(esMongoId){
+    if (esMongoId) {
         const categoria = await Categoria.findById(termino);
 
-        return respuesta(res, 200, ((categoria) ? [categoria]: [{"info": "No hay información disponible"}]));
+        return mensaje(res, 200, ((categoria) ? [categoria] : [{
+            "info": "No hay información disponible"
+        }]));
     }
 
-    const regex = new RegExp(termino, 'i');//es una expresión regular para hacer la búsqueda de tipo no tane estricta
+    const regex = new RegExp(termino, 'i'); //es una expresión regular para hacer la búsqueda de tipo no tane estricta
 
     const categorias = await Categoria.find({
-        $or: [{nombre: regex, estatus: 'Activo'}]
+        $or: [{
+            nombre: regex,
+            estatus: 'Activo'
+        }]
     });
-    
-    return respuesta(res, 200, (categorias ? {"results":categorias}: [{"info": "No hay información disponible"}]));
+
+    return mensaje(res, 200, (categorias ? {
+        "results": categorias
+    } : [{
+        "info": "No hay información disponible"
+    }]));
 };
 
 /**
@@ -36,26 +53,34 @@ const buscarCategorias = async (termino = '', res = response) => {
  * @returns 
  */
 const buscarProductos = async (termino = '', res = response) => {
-    const esMongoId = ObjectId.isValid(termino);//true false
+    const esMongoId = ObjectId.isValid(termino); //true false
 
-    if(esMongoId){
+    if (esMongoId) {
         const producto = await Producto.findById(termino)
+            .populate('categoria', 'nombre')
+            .populate('usuario', 'nombre');
+
+        return res.json((producto) ? [producto] : []);
+    }
+
+    const regex = new RegExp(termino, 'i'); //es una expresión regular para hacer la búsqueda de tipo no tane estricta
+
+    const productos = await Producto.find({
+            $or: [{
+                nombre: regex
+            }, {
+                descripcion: regex
+            }], //$or es de mongo para hacer un or
+            $and: [{
+                estatus: 'Activo'
+            }]
+        })
         .populate('categoria', 'nombre')
         .populate('usuario', 'nombre');
 
-        return res.json((producto) ? [producto]: []);
-    }
-
-    const regex = new RegExp(termino, 'i');//es una expresión regular para hacer la búsqueda de tipo no tane estricta
-
-    const productos = await Producto.find({
-        $or: [{nombre: regex}, {descripcion: regex}],//$or es de mongo para hacer un or
-        $and: [{estatus: 'Activo'}]
-    })
-    .populate('categoria', 'nombre')
-    .populate('usuario', 'nombre');
-    
-    return respuesta(res, 200, {results: productos});
+    return mensaje(res, 200, {
+        results: productos
+    });
 };
 
 /**
@@ -63,24 +88,32 @@ const buscarProductos = async (termino = '', res = response) => {
  * @param {*} termino : es por como se va buscar, si por id, nombre o por correo
  * @param {*} res 
  */
- const buscarUsuarios = async (termino = '', res = response) => {
-    const esMongoId = ObjectId.isValid(termino);//true false
+const buscarUsuarios = async (termino = '', res = response) => {
+    const esMongoId = ObjectId.isValid(termino); //true false
 
     //verifica que sea un id lo que se está recibiendo en termino
-    if(esMongoId){
+    if (esMongoId) {
         const usuario = await Usuarios.findById(termino);
 
-        return res.json((usuario) ? [usuario]: []);
+        return res.json((usuario) ? [usuario] : []);
     }
 
-    const regex = new RegExp(termino, 'i');//es una expresión regular para hacer la búsqueda de tipo no tane estricta
+    const regex = new RegExp(termino, 'i'); //es una expresión regular para hacer la búsqueda de tipo no tane estricta
 
     const usuarios = await Usuarios.find({
-        $or: [{nombre: regex}, {correo: regex}],//$or es de mongo para hacer un or
-        $and: [{estado: true}]
+        $or: [{
+            nombre: regex
+        }, {
+            correo: regex
+        }], //$or es de mongo para hacer un or
+        $and: [{
+            estado: true
+        }]
     });
-    
-    return respuesta(res, 200, {results: usuarios});
+
+    return mensaje(res, 200, {
+        results: usuarios
+    });
 };
 
 /**
@@ -90,10 +123,13 @@ const buscarProductos = async (termino = '', res = response) => {
  * @returns 
  */
 const buscar = (req, res = response) => {
-    const {coleccion,termino} = req.params;
+    const {
+        coleccion,
+        termino
+    } = req.params;
 
     if (!coleccionesPermitidas.includes(coleccion)) {
-        return errores(res, 400, `Las colecciones permitidas son ${coleccionesPermitidas}`);
+        return mensaje(res, 400, `Las colecciones permitidas son ${coleccionesPermitidas}`);
     }
 
     switch (coleccion) {
@@ -107,7 +143,7 @@ const buscar = (req, res = response) => {
             buscarProductos(termino, res);
             break;
         default:
-            return errores(res, 500, `Se me olvidó hacer la búsqueda ${coleccion}`);
+            return mensaje(res, 500, `Se me olvidó hacer la búsqueda ${coleccion}`);
     }
 };
 

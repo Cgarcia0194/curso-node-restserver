@@ -1,13 +1,5 @@
-const {
-    errores,
-    respuesta
-} = require('../../helpers/errores'); //requiere la función de errores para lanzarlo
-const {
-    response
-} = require('../../helpers/requires');
-const {
-    Producto
-} = require('../../models');
+const {mensaje, response} = require('../../helpers');
+const {Producto} = require('../../models');
 
 //Función que crea la categoria
 const crearProducto = async (req, res = response) => {
@@ -16,7 +8,7 @@ const crearProducto = async (req, res = response) => {
     const productoDB = await Producto.findOne({nombre});
 
     if (productoDB) {
-        return errores(res, 400, `El nombre del producto '${nombre}' ya está registrado`);
+        return mensaje(res, 400, `El nombre del producto '${nombre}' ya está registrado`);
     }
 
     const data = {
@@ -31,7 +23,7 @@ const crearProducto = async (req, res = response) => {
 
     await producto.save();
 
-    return respuesta(res, 201, producto);
+    return mensaje(res, 201, producto);
 };
 
 //actualizar producto
@@ -50,7 +42,7 @@ const actualizarProducto = async (req, res = response) => {
 
     const producto = await Producto.findByIdAndUpdate(idProducto, data, {new: true}); //LO ENCUENTRA Y ACTUALIZA
 
-    return respuesta(res, 200, producto);
+    return mensaje(res, 200, producto);
 };
 
 //eliminar producto
@@ -61,7 +53,7 @@ const eliminarProducto = async (req, res = response) => {
         estatus: 'Inactivo'
     }, {new: true});
 
-    return respuesta(res, 200, productoEliminado);
+    return mensaje(res, 200, productoEliminado);
 };
 
 //obtener productos
@@ -82,7 +74,7 @@ const consultarProductosActivos = async (req, res = response) => {
         .limit(Number(limite)) //limit es para limitar con un número
     ]);
 
-    return respuesta(res, 200, {total, productos});
+    return mensaje(res, 200, {total, productos});
 };
 
 //obtener producto
@@ -92,10 +84,10 @@ const consultarProducto = async (req, res = response) => {
     const producto = await Producto.findById(id).populate('categoria', 'nombre').populate('usuario',['nombre', 'correo']);
 
     if (!producto) {
-        return errores(res, 400, `No se ha encontrado el producto con el id ${id}, tal vez está inactivo o no existe`);
+        return mensaje(res, 400, `No se ha encontrado el producto con el id ${id}, tal vez está inactivo o no existe`);
     }
 
-    return respuesta(res, 200, producto);
+    return mensaje(res, 200, producto);
 };
 
 module.exports = {

@@ -20,8 +20,7 @@ const usuarioSchema = Schema({
     },
     rol: {
         type: String,
-        required: [true, ''],
-        //enum: ['ADMIN_ROLE', 'USER_ROLE']
+        required: [true, '']
     },
     estado: {
         type: Boolean,
@@ -30,7 +29,12 @@ const usuarioSchema = Schema({
     google: {
         type: Boolean,
         default: false
-    }
+    },
+    persona: {
+        type: Schema.Types.ObjectId,
+        ref: 'Persona',
+        required: true
+    },
 });
 
 //función que sirve para desestructurar el objeto usuarioSchema y quitar el __v y contrasenia

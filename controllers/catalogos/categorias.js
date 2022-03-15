@@ -1,5 +1,4 @@
-const {errores, respuesta} = require('../../helpers/errores'); //requiere la función de errores para lanzarlo
-const {response} = require('../../helpers/requires');
+const {mensaje, response} = require('../../helpers');
 const {Categoria} = require('../../models');
 
 //Función que crea la categoria
@@ -11,7 +10,7 @@ const crearCategoria = async (req, res = response) => {
     });
 
     if (categoriaDB) {
-        return errores(res, 400, `El nombre de la categoria '${nombre}' ya está registrado`);
+        return mensaje(res, 400, `El nombre de la categoria '${nombre}' ya está registrado`);
     }
 
     const data = {
@@ -23,7 +22,7 @@ const crearCategoria = async (req, res = response) => {
 
     await categoria.save();
 
-    return respuesta(res, 200, categoria);
+    return mensaje(res, 200, categoria);
 };
 
 //actualizar categoria
@@ -39,7 +38,7 @@ const actualizarCategoria = async (req, res = response) => {
 
     const categoria = await Categoria.findByIdAndUpdate(idCategoria, data, {new: true}); //LO ENCUENTRA Y ACTUALIZA
 
-    return respuesta(res, 200, categoria);
+    return mensaje(res, 200, categoria);
 };
 
 //eliminar categoria
@@ -52,7 +51,7 @@ const eliminarCategoria = async (req, res = response) => {
         estatus: 'Inactivo'
     }, {new: true});
 
-    return respuesta(res, 200, categoriaEliminada);
+    return mensaje(res, 200, categoriaEliminada);
 };
 
 //obtener categorias - paginado - total- populate
@@ -73,7 +72,7 @@ const consultarCategoriasActivas = async (req, res = response) => {
         .limit(Number(limite)) //limit es para limitar con un número
     ]);
 
-    return respuesta(res, 200, {total, categorias});
+    return mensaje(res, 200, {total, categorias});
 };
 
 //obtener categoria - populate
@@ -85,10 +84,10 @@ const consultarCategoria = async (req, res = response) => {
     const categoria = await Categoria.findById(id).populate('usuario', ['nombre, correo']);
 
     if (!categoria) {
-        return errores(res, 400, `No se ha encontrado la categoria con el id ${id}, tal vez está inactivo o no existe`);
+        return mensaje(res, 400, `No se ha encontrado la categoria con el id ${id}, tal vez está inactivo o no existe`);
     }
 
-    return respuesta(res, 200, {categoria});
+    return mensaje(res, 200, {categoria});
 };
 
 module.exports = {

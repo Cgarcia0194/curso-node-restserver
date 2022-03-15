@@ -1,6 +1,11 @@
 const cors = require('cors'); //se requiere cors para el uso de peticiones fuera del servidor
 const express = require('express'); //se impporta/requiere express para hacer más fácil la configuración del server
-const {dbConnection} = require('../../DB/config');
+const {
+    dbConnection, mySqlConn
+} = require('../../DB/config');
+
+const {fileUpload} = require('../../helpers');
+
 require('dotenv').config(); //se requiere el dotenv para hacer uso de archivos .env
 
 class Server {
@@ -14,7 +19,9 @@ class Server {
             buscarPath: '/api/buscar', //se establece la ruta donde están las rutas de authentication y se define api
             categoriasPath: '/api/categorias', //se establece la ruta donde están las rutas de categorias y se define api
             paisesPath: '/api/paises', //se establece la ruta donde están las rutas de paises y se define api
+            personasPath: '/api/personas', //se establece la ruta donde están las rutas de personas y se define api
             productosPath: '/api/productos', //se establece la ruta donde están las rutas de paises y se define api
+            uploadsPath: '/api/uploads', //se establece la ruta donde están las rutas de usuarios y se define api
             usuariosPath: '/api/usuarios' //se establece la ruta donde están las rutas de usuarios y se define api
         };
 
@@ -36,6 +43,7 @@ class Server {
      */
     async conectarDB() {
         await dbConnection();
+        // await mySqlConn();
     }
 
     /**
@@ -59,6 +67,12 @@ class Server {
         //Sirve para decir que donde se va a direccionar es a la carpeta public, se puede poner otro nombre, pero es recomendable este
         //Es donde se van a crear los archivos de tipo front como html, vue, angular etc
         this.app.use(express.static('public'));
+
+        //carga de archivos
+        this.app.use(fileUpload({
+            useTempFiles: true,
+            tempFileDir: '/tmp/'
+        }));
     }
 
     /**
@@ -73,7 +87,9 @@ class Server {
         this.app.use(this.paths.buscarPath, require('../../routes/buscar'));
         this.app.use(this.paths.categoriasPath, require('../../routes/catalogos/categorias'));
         this.app.use(this.paths.paisesPath, require('../../routes/catalogos/paises'));
+        this.app.use(this.paths.personasPath, require('../../routes/procesos/personas'));
         this.app.use(this.paths.productosPath, require('../../routes/catalogos/productos'));
+        this.app.use(this.paths.uploadsPath, require('../../routes/uploads'));
         this.app.use(this.paths.usuariosPath, require('../../routes/procesos/usuarios'));
     }
 

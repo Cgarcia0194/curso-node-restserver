@@ -1,6 +1,6 @@
 const {paisesGet, paisesPost, paisesPut, paisesPatch, paisesDelete} = require('../../controllers/catalogos/paises');
 
-const {Router} = require('../../helpers/requires');
+const {Router} = require('../../helpers');
 //se llama la función Router en router, a este se le configuran las rutas
 const router = Router();
 

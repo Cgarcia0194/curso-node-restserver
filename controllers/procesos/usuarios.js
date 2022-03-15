@@ -1,6 +1,5 @@
-const {response, bcryptjs} = require('../../helpers/requires');
-const Usuario = require('../../models/procesos/usuario'); //requiere el modelo de Usuario
-const {respuesta} = require('../../helpers/errores'); //requiere la función de errores para lanzarlo
+const {Usuarios} = require('../../models');
+const {mensaje, bcryptjs, response} = require('../../helpers');
 
 //trae info del servidor
 const usuariosGet = async (req, res = response) => {
@@ -12,13 +11,13 @@ const usuariosGet = async (req, res = response) => {
     };
 
     const [total, usuarios] = await Promise.all([
-        Usuario.countDocuments(query),//hace un conteo de los registros de la tabla
-        Usuario.find(query)//find trae los registros de la tabla si no hay limit ni skip traerá toooodos
+        Usuarios.countDocuments(query),//hace un conteo de los registros de la tabla
+        Usuarios.find(query)//find trae los registros de la tabla si no hay limit ni skip traerá toooodos
             .skip(Number(desde - 1))//skip sirve para saltar
             .limit(Number(limite))//limit es para limitar con un número
     ]);
 
-    return respuesta(res, 200, {total, usuarios});
+    return mensaje(res, 200, {total, usuarios});
 };
 
 //Función que inserta el usuario
@@ -28,14 +27,15 @@ const usuariosPost = async (req, res = response) => {
         nombre,
         correo,
         contrasenia,
-        rol
+        rol,
     } = req.body; //desestructuro el body con los valores que son obligatorios
 
-    const usuario = new Usuario({
+    const usuario = new Usuarios({
         nombre,
         correo,
         contrasenia,
-        rol
+        rol,
+        persona:'622a83678a92d1ff9f0ed3cf' //este se debe quitar debido a que no se va registrar si no desde persona
     }); //mando los valores desestructurados al modelo de usuario
 
     //encriptar la contraseña
@@ -49,7 +49,7 @@ const usuariosPost = async (req, res = response) => {
     //guardar en la base de datos
     await usuario.save();
 
-    return respuesta(res, 200, {msg: 'Post API - controlador', usuario});
+    return mensaje(res, 200, {msg: 'Post API - controlador', usuario});
 };
 
 //actualiza información en el servidor
@@ -72,9 +72,9 @@ const usuariosPut = async (req, res = response) => {
         restUsuario.contrasenia = bcryptjs.hashSync(contrasenia, salt);
     }
 
-    const usuario = await Usuario.findByIdAndUpdate(idUsuario, restUsuario, {new: true}); //LO ENCUENTRA Y ACTUALIZA
+    const usuario = await Usuarios.findByIdAndUpdate(idUsuario, restUsuario, {new: true}); //LO ENCUENTRA Y ACTUALIZA
 
-    return respuesta(res, 200, usuario);
+    return mensaje(res, 200, usuario);
 };
 
 //NO SE USA
@@ -93,10 +93,10 @@ const usuariosDelete = async (req, res = response) => {
 
     //Elimina al usuario de manera física
     //const usuario = await Usuario.findByIdAndDelete(idUsuario);
-    const usuario = await Usuario.findByIdAndUpdate(idUsuario, {estado: false}, {new: true});
+    const usuario = await Usuarios.findByIdAndUpdate(idUsuario, {estado: false}, {new: true});
     const usuarioAutenticado = req.usuario;
 
-    return respuesta(res, 200, {usuario, uid, usuarioAutenticado});
+    return mensaje(res, 200, {usuario, uid, usuarioAutenticado});
 };
 
 //se exportan las variables de cada ruta

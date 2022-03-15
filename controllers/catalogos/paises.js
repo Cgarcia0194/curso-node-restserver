@@ -1,5 +1,5 @@
 const {response} = require('express');
-const Pais = require('../../models/catalogos/pais');
+const {Pais} = require('../../models');
 
 const paisesPost = async (req, res) => {
     const {

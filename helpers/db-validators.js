@@ -1,9 +1,9 @@
 const {
     Categoria,
     Producto,
+    Role,
     Usuarios
 } = require('../models');
-const Role = require('../models/catalogos/role'); // se requiere el modelo de rol
 
 /**
  * Función que sirve para poder validar el nombre del rol que ya está registrado en la BD de la tabla roles
@@ -94,6 +94,10 @@ const existeProductoPorId = async idProducto => {
     }
 };
 
+const coleccionesPermitidas = async (coleccion = '', colecciones = []) => {
+
+};
+
 //se exportan las funciones para que sean usadas en otros archivos JS
 module.exports = {
     esRolValido,
@@ -101,5 +105,6 @@ module.exports = {
     existeUsuarioPorId,
     existeCategoria,
     existeCategoriaPorId,
-    existeProductoPorId
+    existeProductoPorId,
+    coleccionesPermitidas
 };

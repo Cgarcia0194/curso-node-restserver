@@ -13,16 +13,7 @@ const {
     tieneRol
 } = require('../../middlewares');
 
-const {
-    esRolValido,
-    existeEmail,
-    existeUsuarioPorId
-} = require('../../helpers/db-validators'); // función que sirve para validar el campo o valor del rol
-
-const {
-    Router,
-    check
-} = require('../../helpers/requires');
+const {check,esRolValido,existeEmail,existeUsuarioPorId,Router} = require('../../helpers');
 
 //se llama la función Router en router, a este se le configuran las rutas
 const router = Router();
