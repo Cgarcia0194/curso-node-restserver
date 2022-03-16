@@ -1,8 +1,13 @@
 const cors = require("cors"); //se requiere cors para el uso de peticiones fuera del servidor
 const express = require("express"); //se impporta/requiere express para hacer más fácil la configuración del server
-const { dbConnection, mySqlConn } = require("../../DB/config");
+const {
+  dbConnection,
+  mySqlConn
+} = require("../../DB/config");
 
-const { fileUpload } = require("../../helpers");
+const {
+  fileUpload
+} = require("../../helpers");
 
 require("dotenv").config(); //se requiere el dotenv para hacer uso de archivos .env
 
@@ -17,6 +22,7 @@ class Server {
       buscarPath: "/api/buscar", //se establece la ruta donde están las rutas de authentication y se define api
       categoriasPath: "/api/categorias", //se establece la ruta donde están las rutas de categorias y se define api
       coloniasPath: "/api/colonias", //se establece la ruta donde están las rutas de authentication y se define api
+      estadosPath: "/api/estados", //se establece la ruta donde están las rutas de authentication y se define api
       paisesPath: "/api/paises", //se establece la ruta donde están las rutas de paises y se define api
       personasPath: "/api/personas", //se establece la ruta donde están las rutas de personas y se define api
       productosPath: "/api/productos", //se establece la ruta donde están las rutas de paises y se define api
@@ -86,31 +92,14 @@ class Server {
      */
     this.app.use(this.paths.authPath, require("../../routes/auth")); //se define la ruta de authPath haciendo el require de la ruta ../routes/auth
     this.app.use(this.paths.buscarPath, require("../../routes/buscar"));
-    this.app.use(
-      this.paths.categoriasPath,
-      require("../../routes/catalogos/categorias")
-    );
-    this.app.use(
-      this.paths.coloniasPath,
-      require("../../routes/catalogos/colonias")
-    );
-    this.app.use(
-      this.paths.paisesPath,
-      require("../../routes/catalogos/paises")
-    );
-    this.app.use(
-      this.paths.personasPath,
-      require("../../routes/procesos/personas")
-    );
-    this.app.use(
-      this.paths.productosPath,
-      require("../../routes/catalogos/productos")
-    );
+    this.app.use(this.paths.categoriasPath, require("../../routes/catalogos/categorias"));
+    this.app.use(this.paths.coloniasPath, require("../../routes/catalogos/colonias"));
+    this.app.use(this.paths.estadosPath, require("../../routes/catalogos/estados"));
+    this.app.use(this.paths.paisesPath, require("../../routes/catalogos/paises"));
+    this.app.use(this.paths.personasPath, require("../../routes/procesos/personas"));
+    this.app.use(this.paths.productosPath, require("../../routes/catalogos/productos"));
     this.app.use(this.paths.uploadsPath, require("../../routes/uploads"));
-    this.app.use(
-      this.paths.usuariosPath,
-      require("../../routes/procesos/usuarios")
-    );
+    this.app.use(this.paths.usuariosPath, require("../../routes/procesos/usuarios"));
   }
 
   /**

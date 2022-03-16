@@ -1,10 +1,11 @@
 const {
     Categoria,
     Colonia,
+    Estado,
+    Pais,
     Producto,
     Role,
     Usuarios,
-    Pais,
 } = require('../models');
 
 /**
@@ -125,6 +126,20 @@ const existePaisPorId = async idPais => {
 };
 
 /**
+ * Función que sirve para buscar un estado por id
+ * @param {*} idEstado 
+ */
+ const existeEstadoPorId = async idEstado => {
+    const existeEstado = await Estado.findById({
+        _id: idEstado
+    });
+
+    if (!existeEstado) {
+        throw new Error(`El id del estado ${idEstado} no existe`);
+    }
+};
+
+/**
  * 
  * @param {*} coleccion 
  * @param {*} colecciones 
@@ -143,5 +158,6 @@ module.exports = {
     existeProductoPorId,
     existeColoniaPorId,
     existePaisPorId,
-    coleccionesPermitidas
+    coleccionesPermitidas,
+    existeEstadoPorId
 };
