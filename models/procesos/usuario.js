@@ -33,7 +33,7 @@ const usuarioSchema = Schema({
     persona: {
         type: Schema.Types.ObjectId,
         ref: 'Persona',
-        required: true
+        // required: true
     },
 });
 

@@ -1,6 +1,7 @@
 const Categoria = require('./catalogos/categoria');
 const Colonia = require('./catalogos/colonias');
 const Estado = require('./catalogos/estados');
+const Movimiento = require('./gastos/movimiento');
 const Pais = require('./catalogos/pais');
 const Persona = require('./procesos/persona');
 const Producto = require('./catalogos/producto');
@@ -12,6 +13,7 @@ module.exports = {
     Categoria,
     Colonia,
     Estado,
+    Movimiento,
     Pais,
     Persona,
     Producto,

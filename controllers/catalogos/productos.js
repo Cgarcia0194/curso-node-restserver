@@ -1,7 +1,7 @@
 const {mensaje, response} = require('../../helpers');
 const {Producto} = require('../../models');
 
-//Función que crea la categoria
+//Función que crea el producto
 const crearProducto = async (req, res = response) => {
     const {nombre, descripcion, precio, categoria} = req.body;
 

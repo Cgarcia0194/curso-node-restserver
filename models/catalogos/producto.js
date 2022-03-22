@@ -17,6 +17,9 @@ const productoSchema = Schema({
         type: Number,
         default: 0
     },
+    img: {
+        type: String
+    },
     estatus: {
         type: String,
         enum: ['Activo', 'Inactivo'],

@@ -3,6 +3,7 @@ const {
     Colonia,
     Estado,
     Pais,
+    Persona,
     Producto,
     Role,
     Usuarios,
@@ -129,7 +130,7 @@ const existePaisPorId = async idPais => {
  * Función que sirve para buscar un estado por id
  * @param {*} idEstado 
  */
- const existeEstadoPorId = async idEstado => {
+const existeEstadoPorId = async idEstado => {
     const existeEstado = await Estado.findById({
         _id: idEstado
     });
@@ -139,13 +140,30 @@ const existePaisPorId = async idPais => {
     }
 };
 
+const existePersonaPorId = async idPersona => {
+    const existePersona = await Persona.findById({
+        _id: idPersona
+    });
+
+    if (!existePersona) {
+        throw new Error(`El id de la persona ${idPersona} no existe`);
+    }
+};
+
 /**
- * 
+ * Validar las colecciones permitidas
  * @param {*} coleccion 
  * @param {*} colecciones 
  */
-const coleccionesPermitidas = async (coleccion = '', colecciones = []) => {
+const coleccionesPermitidas = (coleccion = '', colecciones = []) => {
+    //sirve para buscar en el arreglo que la colección que se manda esté entre las permitidas
+    const incluida = colecciones.includes(coleccion);
 
+    if (!incluida) {
+        throw new Error(`La coleccion '${coleccion}' no es permitida [${colecciones}]`);
+    }
+
+    return true;
 };
 
 //se exportan las funciones para que sean usadas en otros archivos JS
@@ -158,6 +176,7 @@ module.exports = {
     existeProductoPorId,
     existeColoniaPorId,
     existePaisPorId,
+    existeEstadoPorId,
+    existePersonaPorId,
     coleccionesPermitidas,
-    existeEstadoPorId
 };

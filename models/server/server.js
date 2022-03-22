@@ -23,6 +23,7 @@ class Server {
       categoriasPath: "/api/categorias", //se establece la ruta donde están las rutas de categorias y se define api
       coloniasPath: "/api/colonias", //se establece la ruta donde están las rutas de authentication y se define api
       estadosPath: "/api/estados", //se establece la ruta donde están las rutas de authentication y se define api
+      movimientosPath: "/api/movimientos", //se establece la ruta donde están las rutas de authentication y se define api
       paisesPath: "/api/paises", //se establece la ruta donde están las rutas de paises y se define api
       personasPath: "/api/personas", //se establece la ruta donde están las rutas de personas y se define api
       productosPath: "/api/productos", //se establece la ruta donde están las rutas de paises y se define api
@@ -95,6 +96,7 @@ class Server {
     this.app.use(this.paths.categoriasPath, require("../../routes/catalogos/categorias"));
     this.app.use(this.paths.coloniasPath, require("../../routes/catalogos/colonias"));
     this.app.use(this.paths.estadosPath, require("../../routes/catalogos/estados"));
+    this.app.use(this.paths.movimientosPath, require("../../routes/gastos/movimientos"));
     this.app.use(this.paths.paisesPath, require("../../routes/catalogos/paises"));
     this.app.use(this.paths.personasPath, require("../../routes/procesos/personas"));
     this.app.use(this.paths.productosPath, require("../../routes/catalogos/productos"));

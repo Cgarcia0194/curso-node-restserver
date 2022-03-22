@@ -1,5 +1,5 @@
 const {mensaje, bcryptjs, response} = require('../../helpers');
-const {Persona} = require('../../models');
+const {Persona, Usuarios} = require('../../models');
 
 //función que sirve para traer las personas
 const personasGet = async (req, res = response) => {
@@ -37,7 +37,7 @@ const personasPost = async (req, res = response) => {
         img: info.txtImg
     }); //mando los valores desestructurados al modelo de persona
 
-    const usuario = new Usuario({
+    const usuario = new Usuarios({
         nombre: info.txtNombre,
         correo: info.txtCorreo,
         contrasenia: info.txtContrasenia,

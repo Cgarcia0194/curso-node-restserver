@@ -3,7 +3,14 @@ const {
     uuidv4
 } = require(__dirname + '/requires'); //este se debe imortar desde requires ya que con index manda alerta en consola
 
-const subirArchivo = (files, extensionesValidas = ['image/png', 'image/jpeg', 'image/gif', 'application/pdf'], carpeta = '') => {
+/**
+ * Función que sirve para subir un archivo
+ * @param {*} files : trae la información del archivo desde req.files
+ * @param {*} extensionesValidas : son las extensiones que se permiten, si no se indican están unas por defecto
+ * @param {*} carpeta :el nombre de la carpeta donde se va a insertar el archivo, si no lo trae lo pone en raiz de uploads
+ * @returns 
+ */
+const subirArchivo = (files, extensionesValidas = ['image/png', 'image/jpeg', 'image/gif', 'image/svg+xml', 'application/pdf'], carpeta = '') => {
     //desestructuro el archivo que es el nombre que viene en el body en el formdata con nombre archivo
 
     return new Promise((resolve, reject) => {
