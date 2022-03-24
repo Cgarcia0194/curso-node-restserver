@@ -1,8 +1,5 @@
 const {
     Categoria,
-    Colonia,
-    Estado,
-    Pais,
     Persona,
     Producto,
     Role,
@@ -98,48 +95,6 @@ const existeProductoPorId = async idProducto => {
     }
 };
 
-/**
- * Función que sirve para buscar una colonia por id
- * @param {*} idColonia 
- */
-const existeColoniaPorId = async idColonia => {
-    const existeColonia = await Colonia.findById({
-        _id: idColonia
-    });
-
-    if (!existeColonia) {
-        throw new Error(`El id de la colonia ${idColonia} no existe`);
-    }
-};
-
-/**
- * Función que sirve para buscar una colonia por id
- * @param {*} idPais 
- */
-const existePaisPorId = async idPais => {
-    const existePais = await Pais.findById({
-        _id: idPais
-    });
-
-    if (!existePais) {
-        throw new Error(`El id del pais ${idPais} no existe`);
-    }
-};
-
-/**
- * Función que sirve para buscar un estado por id
- * @param {*} idEstado 
- */
-const existeEstadoPorId = async idEstado => {
-    const existeEstado = await Estado.findById({
-        _id: idEstado
-    });
-
-    if (!existeEstado) {
-        throw new Error(`El id del estado ${idEstado} no existe`);
-    }
-};
-
 const existePersonaPorId = async idPersona => {
     const existePersona = await Persona.findById({
         _id: idPersona
@@ -174,9 +129,6 @@ module.exports = {
     existeCategoria,
     existeCategoriaPorId,
     existeProductoPorId,
-    existeColoniaPorId,
-    existePaisPorId,
-    existeEstadoPorId,
     existePersonaPorId,
     coleccionesPermitidas,
 };
